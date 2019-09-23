@@ -8,17 +8,16 @@ import globalRouter from "./router/globalRouter"
 import userRouter from "./router/userRouter"
 import videoRouter from "./router/videoRouter"
 import routes from "./routes";
+import { localsMiddleware } from "./middlewares";
 const app = express();
 
-const handleHome = (req, res) => res.send('hello from home!!');
-
-const handleProfile = (req, res) => res.send('You are on my profile');
-
+app.use(helmet());
+app.set("view engine", "pug");
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-app.use(helmet());
 app.use(morgan("dev"));
+app.use(localsMiddleware);
  
 app.use(routes.home, globalRouter);
 app.use(routes.users, userRouter);
